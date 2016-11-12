@@ -13,9 +13,10 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
- 
 
+import javax.annotation.Resource;
 import javax.naming.*;
 
 /**
@@ -24,6 +25,7 @@ import javax.naming.*;
 @WebServlet("/Tipps")
 public class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 
 	private DataSource dataSource;
 	
@@ -48,13 +50,31 @@ public class MyServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		//Context initCtx = new InitialContext();
+		
+        // connects to the database
+		Connection conn = null;
+        try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+	        conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+	        if (conn!=null){
+	        	
+	        	PreparedStatement ps = conn.prepareStatement("select * from test.tipps");
+	        	ResultSet result = ps.executeQuery();
+	        	
+	        	while (result.next()){
+	        		
+	        	
+	        	}
+	        	
+	        }
+	        
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		//Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-		//DataSource ds = (DataSource)
-
-		//envCtx.lookup("jdbc/[YourResourceName]");
+        
 		request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	}
 

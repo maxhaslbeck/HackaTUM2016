@@ -11,9 +11,8 @@
 <h1>Hello</h1>
 
 
-<h3><%= (String)request.getAttribute("Message") %>
-</h3>
- 
+<h3><%=request.getAttribute("Message")%></h3>
+
 <form action="Tipps" method="post">
 	Tipp text: <br>
 	<input type="text" name = "tipptext"> <br>
@@ -37,7 +36,14 @@
 	<input type="text" name = "aufgabe"> <br>
 	<input type="submit" value ="submit">
 </form>
+<form action="Tipps" method="get">
+	Aufgabe (id): <br>
+	<input type="text" name = "aufgabe"> <br>
+	<input type="submit" value ="get"> <br>
+</form>
 
+<div id="result">
+</div>
 
 </body>
 </html>
