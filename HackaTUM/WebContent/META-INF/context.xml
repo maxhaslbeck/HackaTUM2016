@@ -7,7 +7,7 @@
 	
 	type="javax.sql.DataSource"
 	
-	username="admin"
+	username="root"
 	
 	password="BoostedMonkey"
 	

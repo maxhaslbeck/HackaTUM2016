@@ -7,19 +7,37 @@
 <title>Test</title>
 </head>
 <body>
-<% java.util.Date d = new java.util.Date(); %>
-Hello
-<h1>
-Today's date is <%= d.toString() %> and this jsp page worked!
-</h1>
 
+<h1>Hello</h1>
+
+
+<h3><%= (String)request.getAttribute("Message") %>
+</h3>
+ 
 <form action="Tipps" method="post">
 	Tipp text: <br>
 	<input type="text" name = "tipptext"> <br>
-	Aufgabe: <br>
+	Aufgabe (id): <br>
+	<input type="text" name = "aufgabe"> <br>
+	Kosten: <br>
+	<input type="text" name = "cost"> <br>
+	Hole (#):<br>
+	<input type="text" name = "hole"> <br>
+	Rank (#):<br>
+	<input type="text" name = "rank"> <br>
+	<input type="submit" value ="submit">
+</form>
+<br>
+<form action="FileUploader" method="post" enctype="multipart/form-data">
+	Upload bundle (zip): <br>
+	<input type="file" name = "bundle"> <br>
+	Upload xml: <br>
+	<input type="file" name = "xml"> <br>
+	Aufgabe (id): <br>
 	<input type="text" name = "aufgabe"> <br>
 	<input type="submit" value ="submit">
-	<span class="error">${error}</span>
 </form>
+
+
 </body>
 </html>
