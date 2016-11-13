@@ -1,15 +1,16 @@
 
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 
 import javax.annotation.Resource;
 import javax.naming.*;
+import java.util.*;
 
 /**
  * Servlet implementation class MyServlet
@@ -26,7 +28,7 @@ import javax.naming.*;
 public class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-
+	@Resource(name ="jdbc/test")
 	private DataSource dataSource;
 	
     // database connection settings
@@ -47,10 +49,12 @@ public class MyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		// Get aufgaben id
+		String id = request.getParameter("aufgabe");
 		
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+				
         // connects to the database
 		Connection conn = null;
         try {
@@ -58,14 +62,34 @@ public class MyServlet extends HttpServlet {
 	        conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
 	        if (conn!=null){
 	        	
-	        	PreparedStatement ps = conn.prepareStatement("select * from test.tipps");
+	        	// Get all tipps for this task
+	        	PreparedStatement ps = conn.prepareStatement("select * from test.tipps where aufgabenid = ?");
+	        	ps.setString(1, id);
+	        	
 	        	ResultSet result = ps.executeQuery();
-	        	
+
+	        	PrintWriter out = response.getWriter();
+	        	response.setContentType("application/json");
+	        	out.println("{\"tipps\":[");
 	        	while (result.next()){
-	        		
-	        	
+	        		out.println("{");  
+	        		out.println(getJsonLine("tippid", result.getString(1)));
+	        		out.print(",");
+	        		out.println(getJsonLine("taskid", result.getString(2)));
+	        		out.print(",");
+	        		out.println(getJsonLine("holeid", result.getString(3)));
+	        		out.print(",");
+	        		out.println(getJsonLine("rank", result.getString(4)));
+	        		out.print(",");
+	        		out.println(getJsonLine("cost", result.getString(5)));
+	        		out.print(",");
+	        		out.println(getJsonLine("text", result.getString(6)));
+	        		out.print("}");
 	        	}
-	        	
+	        	out.println("]}");
+	        	response.setStatus(2);
+
+
 	        }
 	        
 		} catch (SQLException e) {
@@ -77,7 +101,9 @@ public class MyServlet extends HttpServlet {
         
 		request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	}
-
+	public String getJsonLine(String key, String value){
+		return  "\"" +  key + "\": \"" + value + "\"";
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

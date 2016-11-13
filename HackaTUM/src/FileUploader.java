@@ -66,12 +66,31 @@ public class FileUploader extends HttpServlet {
                 // fetches input stream of the upload file for the blob column
                 statement.setBlob(2, inputStream);
             }
- 
+             
+            // get the 2nd uploaded file
+            filePart = request.getPart("xml");
+            if (filePart != null) {
+                // prints out some information for debugging
+                System.out.println(filePart.getName());
+                System.out.println(filePart.getSize());
+                System.out.println(filePart.getContentType());
+                 
+                // obtains input stream of the upload file
+                inputStream = filePart.getInputStream();
+            }
+            
+            // input the 2nd file
+            if (inputStream != null) {
+                // fetches input stream of the upload file for the blob column
+                statement.setBlob(3, inputStream);
+            }
+            
             // sends the statement to the database server
             int row = statement.executeUpdate();
             if (row > 0) {
                 message = "File uploaded and saved into database";
             }
+            
         } catch (SQLException ex) {
             message = "ERROR: " + ex.getMessage();
             ex.printStackTrace();
