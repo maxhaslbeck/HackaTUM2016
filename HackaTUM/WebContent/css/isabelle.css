@@ -19,10 +19,7 @@ body { background-color: #FFFFFF; }
   padding: 10px;
   font-family: IsabelleText;
   line-height: 100%;
-}
-
-span {
-	display: none;
+  font-size: 12pt;
 }
 
 .external_source { background-color: #FFFFFF; padding: 10px; }

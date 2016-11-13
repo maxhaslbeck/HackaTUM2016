@@ -16,6 +16,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import javax.annotation.Resource;
 import javax.naming.*;
 
@@ -72,10 +76,12 @@ public class MyServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
         
-		request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+		//getting the XML file and posting it to the index file
+		String xml = "<h1>Try sth</h1>";
+		request.setAttribute("xmlString", "<h1>Try sth</h1>");
+		getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
+
 	}
 
 	/**
@@ -83,6 +89,8 @@ public class MyServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+
 		
 		String tippText = request.getParameter("tipptext");
 		String aufgabe = request.getParameter("aufgabe");
@@ -135,9 +143,6 @@ public class MyServlet extends HttpServlet {
 	            // forwards to the message page
 	            getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 	        }
-		}
-		
-			
+		}	
 	}
-
 }

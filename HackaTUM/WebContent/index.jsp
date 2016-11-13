@@ -21,11 +21,13 @@
 
 <div class="container proofwars">
 
-<%@include file="task.jsp" %>
+<h1><%= request.getAttribute("xmlString") %></h1>
+
+
 
 <h1 class="pull-center">Hello</h1>
 
-<h3><%=request.getAttribute("Message")%></h3>
+<h3><%=(String)request.getAttribute("Message")%></h3>
 
 <form action="Tipps" method="post">
 	Tipp text: <br>
