@@ -36,9 +36,9 @@ public class MyServlet extends HttpServlet {
 	private DataSource dataSource;
 	
     // database connection settings
-    private String dbURL = "jdbc:mysql://localhost:3306/test";
-    private String dbUser = "root";
-    private String dbPass = "BoostedMonkey";
+    private String dbURL = LocalSettings.dbURL;
+    private String dbUser = LocalSettings.dbUser;
+    private String dbPass = LocalSettings.dbPass;
     
     
     /**
