@@ -6,4 +6,8 @@ public class LocalSettings {
     static String dbUser = "root";
     static String dbPass = "whatthefuck";
     
+    static String tumjudgeUser = "";
+    
+    static String tumjudgePass = "";
+    
 }
