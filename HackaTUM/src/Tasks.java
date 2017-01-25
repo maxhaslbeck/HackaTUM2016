@@ -43,13 +43,14 @@ public class Tasks extends HttpServlet {
     
     private void printTasks(PrintWriter out, Connection conn) {
     	try {
-    		
-        	out.println("All Tasks:");
+
+        	out.println("<h2>All Tasks:</h2>");
         	out.println("<table>"
         			+ "<tr>"
         			+ 	"<td>ID</td>"
         			+	"<td>judgeTaskID</td>" 
         			+ 	"<td>name</td>"
+        			+ 	"<td></td>"
         			+ "</tr>");
     		
     		if (conn!=null){    	
@@ -66,11 +67,13 @@ public class Tasks extends HttpServlet {
 	            			+ 	"<td>" + result.getString(1) + "</td>"
 	            			+ 	"<td>" + result.getString(3) + "</td>"
 	            			+	"<td><a href=\"Task?ID=" + result.getString(1) + "\">" + result.getString(2) + "</a></td>" 
+	            			+	"<td><a href=\"EditTasks?ID=" + result.getString(1) + "\">edit</a></td>" 
 	            			+ "</tr>");
 	        	}
 	        }
 
         	out.println("</table>");
+        	out.println("<br><a href=\"EditTasks\">create new task</a>");
     		
     	} catch (SQLException e) { 
 			e.printStackTrace();
@@ -82,7 +85,7 @@ public class Tasks extends HttpServlet {
     private void printSubmissions(PrintWriter out, Connection conn) {
     	try {
     		
-        	out.println("All Submissions:");
+        	out.println("<h2>All Submissions:</h2>");
         	out.println("<table>"
         			+ "<tr>"
         			+ 	"<td>ID</td>"
@@ -91,6 +94,7 @@ public class Tasks extends HttpServlet {
         			+	"<td>content</td>"
         			+	"<td>time</td>"
         			+	"<td>judgeSubmissionID</td>"
+        			+	"<td>result</td>"
         			+ "</tr>");
     		
     		if (conn!=null){    	
@@ -103,14 +107,29 @@ public class Tasks extends HttpServlet {
 	        	ResultSet result = ps.executeQuery();
 	
 	        	while (result.next()){
+	        		
+
+	        		String res = "ERROR";
+	        		try {
+	        			res = TUMJudgeConnection.getjudging(result.getString(6));
+	        			if(res.equals("correct"))
+	        				res = "<span style=\"color: green\">accepted</span>";
+	        		} catch (Exception e) {
+	        			
+	        		}
+	        		
 	        		out.println("<tr>"
 	            			+ 	"<td>" + result.getString(1) + "</td>"
 	            			+ 	"<td>" + result.getString(2) + "</td>"
 	            			+	"<td>" + result.getString(3) + "</td>"
 	            			+	"<td>" + result.getString(4) + "</td>"
 	            			+	"<td>" + result.getString(5) + "</td>"	
-	            			+	"<td>" + result.getString(6) + "</td>"	 
+	            			+	"<td>" + result.getString(6) + "</td>"	
+	            			+	"<td>" + res + "</td>"	 
 	            			+ "</tr>");
+	        		
+	        		
+	        		
 	        	}
 	        }
 

@@ -58,13 +58,22 @@ public class Task extends HttpServlet {
 	        	ResultSet result = ps.executeQuery();
 	
 	        	while (result.next()){
+
+	        		String descr = result.getString(4);
+    				descr = descr.replaceAll("(\r\n|\n)", "<br />");
+	        		String def = result.getString(6);
+    				def = def.replaceAll("(\r\n|\n)", "<br />"); 
+	        		String check = result.getString(5);
+	        		check = check.replaceAll("(\r\n|\n)", "<br />"); 
+	        		
+	        		
 	        		out.println("<h1>" + result.getString(2)  + "</h1>");
 	        		out.println("<h2>Description</h2>");
-	        		out.println(result.getString(4) + "<br>"); 
+	        		out.println( descr + "<br>"); 
 	        		out.println("<h2>Definition.thy</h2>");
-	        		out.println(result.getString(6) + "<br>"); 
+	        		out.println("<table><tr><td>"+ def + "</td></tr></table><br>"); 
 	        		out.println("<h2>Check.thy</h2>");
-	        		out.println(result.getString(5) + "<br>"); 
+	        		out.println("<table><tr><td>"+ check + "</td></tr></table><br>"); 
 	        	}
 	        }
 
@@ -91,6 +100,7 @@ public class Task extends HttpServlet {
         response.setContentType("text/html");
         out.println("<html><body>");
 
+        out.println("<a href=\"Tasks\">back to Tasks</a><br>");
 
         // connects to the database
 		Connection conn = null;
@@ -106,13 +116,13 @@ public class Task extends HttpServlet {
 			e.printStackTrace();
 			out.println("ERROR");
 		}
-        
+
+		out.println("<h2>Submit your Solution!</h2>");
         out.println("<form action=\"Submission\" method=\"post\" enctype=\"multipart/form-data\">"
         					+ "Upload Submission: <br>"
         					+ "<input type=\"file\" name=\"submission\"> <br>"
-        					+ "<input type=\"file\" multiple=\"\" name=\"code[]\"> <br>"
-        					+ "<input type=\"hidden\" name=\"aufgabe\" value=\""+ taskID +"\"> <br>"
-        					+ "Upload xml: <br>"
+        		//			+ "<input type=\"file\" multiple=\"\" name=\"code[]\"> <br>"
+        					+ "<input type=\"hidden\" name=\"aufgabe\" value=\""+ taskID +"\"> <br><br>" 
         					+ "<input type=\"submit\" value=\"submit\">"
         					+ "</form>");	
         

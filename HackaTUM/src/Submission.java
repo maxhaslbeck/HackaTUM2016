@@ -1,5 +1,7 @@
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -8,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -66,7 +70,7 @@ public class Submission extends HttpServlet {
         
         
         InputStream inputStream = null; // input stream of the upload file
-         
+        InputStream inputStream2 = null; 
         // obtains the upload file part in this multipart request
         Part filePart = request.getPart("submission");
         if (filePart != null) {
@@ -77,19 +81,57 @@ public class Submission extends HttpServlet {
              
             // obtains input stream of the upload file
             inputStream = filePart.getInputStream();
+            inputStream2 = filePart.getInputStream();; // input stream of the upload file
         }
-         
-        try {
 
-        	String langid = "";
-        	String contest = "";
-        	String shortname = "";
-        	
-			String submissionnumber = TUMJudgeConnection.submit("",shortname,langid,contest).trim();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        String filename = "";
+        
+        // write submission to file
+        if(inputStream2!=null) {
+
+        	OutputStream outputStream = null;
+
+        	try { 
+        		filename = "/tmp/submission-" + System.currentTimeMillis();
+
+        		// write the inputStream to a FileOutputStream
+        		outputStream =
+                            new FileOutputStream(new File(filename));
+
+        		int read = 0;
+        		byte[] bytes = new byte[1024];
+
+        		while ((read = inputStream2.read(bytes)) != -1) {
+        			outputStream.write(bytes, 0, read);
+        		}
+
+        		System.out.println("Done!");
+
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        	} finally {
+        		if (inputStream2 != null) {
+        			try {
+        				inputStream2.close();
+        			} catch (IOException e) {
+        				e.printStackTrace();
+        			}
+        		}
+        		if (outputStream != null) {
+        			try {
+        				// outputStream.flush();
+        				outputStream.close();
+        			} catch (IOException e) {
+        				e.printStackTrace();
+        			}
+
+        		}
+        	}
+            
+        }
+        
+         
+
         
         
         Connection conn = null; // connection to the database
@@ -100,12 +142,39 @@ public class Submission extends HttpServlet {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
  
+            
+            
+            
+            // get information about that task 
+            
+            PreparedStatement ps = conn.prepareStatement("select ID, judgeTaskID from test.Task WHERE ID = ?");
+        	ps.setString(1, aufgabe); 
+        	
+        	ResultSet result = ps.executeQuery();
+        	String judgeTaskID = "";
+        	while (result.next()){
+        		judgeTaskID = result.getString(2);
+        	}
+            
+        	String submissionnumber = "";
+            try {
+    			submissionnumber = TUMJudgeConnection.submit(filename,judgeTaskID,"isabelle","helloworld").trim();
+    			System.out.println("SUBMISSION successfully posted to TUMJudge");
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+            
+            
+            
+            
+            
             // constructs SQL statement
             String sql = "INSERT INTO test.Submission (taskID, userID, judgeSubmissionID, content) values (?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, aufgabe);
             statement.setString(2, "1");
-            statement.setString(3, "blablub"); 
+            statement.setString(3, submissionnumber); 
              
             if (inputStream != null) {
                 // fetches input stream of the upload file for the blob column
