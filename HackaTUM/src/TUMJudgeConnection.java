@@ -139,7 +139,7 @@ public class TUMJudgeConnection {
 			}
 			con.setRequestProperty("Connection", "keep-alive");
 
-			String urlParameters = "cmd=login&login="+ LocalSettings.tumjudgeUser +"&passwd"+ LocalSettings.tumjudgePass ;
+			String urlParameters = "cmd=login&login=" + LocalSettings.tumjudgeUser + "&passwd=" + LocalSettings.tumjudgePass ;
 
 			// Send post request
 			con.setDoOutput(true);
