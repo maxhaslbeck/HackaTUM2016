@@ -107,8 +107,8 @@ import java.util.*;
 			            // constructs SQL statement
 			            String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy) values (?, ?, ?, ?, ?)";
 			            PreparedStatement statement = conn.prepareStatement(sql);
-			            statement.setString(1, "name1");
-			            statement.setString(2, "judgeTaskID1");
+			            statement.setString(1, "mod9");
+			            statement.setString(2, "mod9");
 			            statement.setString(3, "In this task you have to do some crazy stuff!");
 			            statement.setString(4, "Definition");
 			            statement.setString(5, "Check");
@@ -127,8 +127,8 @@ import java.util.*;
 				            String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy) values (?, ?, ?, ?, ?)";
 				            PreparedStatement statement = conn.prepareStatement(sql);
 				            statement.setString(1, "name2");
-				            statement.setString(2, "judgeTaskID2");
-				            statement.setString(3, "In this task you have to do some real stuff!");
+				            statement.setString(2, "Rev");
+				            statement.setString(3, "Rev! In this task you have to do some real stuff!");
 				            statement.setString(4, "Definition2");
 				            statement.setString(5, "Check2");
 				            // sends the statement to the database server
