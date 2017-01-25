@@ -58,7 +58,9 @@ public class MyServlet extends HttpServlet {
 		String id = request.getParameter("aufgabe");
 		
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-				
+
+    	PrintWriter out = response.getWriter();
+    	
         // connects to the database
 		Connection conn = null;
         try {
@@ -72,7 +74,6 @@ public class MyServlet extends HttpServlet {
 	        	
 	        	ResultSet result = ps.executeQuery();
 
-	        	PrintWriter out = response.getWriter();
 	        	response.setContentType("application/json");
 	        	out.println("{\"tipps\":[");
 	        	while (result.next()){
@@ -99,12 +100,13 @@ public class MyServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			out.println("ERROR");
 		}
         
 		//getting the XML file and posting it to the index file
 		String xml = "<h1>Try sth</h1>";
 		request.setAttribute("xmlString", "<h1>Try sth</h1>");
-		getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
+		//getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
 
 	}
 	public String getJsonLine(String key, String value){
