@@ -93,6 +93,7 @@ import java.util.*;
 		                		 		+ "description TEXT, "
 		                		 		+ "checkthy TEXT, "
 		                		 		+ "defthy TEXT, "
+		                		 		+ "contest TEXT, "
 		                		 		+ "PRIMARY KEY (`ID`));");
 		                 System.out.println("successfull");
 		                 out.println("Create Table 'Task': " + myResult + "<br>");
@@ -105,13 +106,14 @@ import java.util.*;
 		        	 // Fill "Task" with some content
 		        	 try {
 			            // constructs SQL statement
-			            String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy) values (?, ?, ?, ?, ?)";
+			            String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy, contest) values (?, ?, ?, ?, ?, ?)";
 			            PreparedStatement statement = conn.prepareStatement(sql);
 			            statement.setString(1, "mod9");
 			            statement.setString(2, "mod9");
 			            statement.setString(3, "In this task you have to do some crazy stuff!");
 			            statement.setString(4, "Definition");
 			            statement.setString(5, "Check");
+			            statement.setString(6, "helloworld");
 			            // sends the statement to the database server
 			            int row = statement.executeUpdate();
 			            if (row > 0) {
@@ -124,13 +126,14 @@ import java.util.*;
 		             }
 		        	 try {
 				            // constructs SQL statement
-				            String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy) values (?, ?, ?, ?, ?)";
+		        		 	String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy, contest) values (?, ?, ?, ?, ?, ?)";
 				            PreparedStatement statement = conn.prepareStatement(sql);
 				            statement.setString(1, "name2");
-				            statement.setString(2, "Rev");
+				            statement.setString(2, "trivial");
 				            statement.setString(3, "Rev! In this task you have to do some real stuff!");
 				            statement.setString(4, "Definition2");
 				            statement.setString(5, "Check2");
+				            statement.setString(6, "tutorial");
 				            // sends the statement to the database server
 				            int row = statement.executeUpdate();
 				            if (row > 0) {

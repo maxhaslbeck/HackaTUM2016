@@ -49,6 +49,7 @@ public class Tasks extends HttpServlet {
         			+ "<tr>"
         			+ 	"<td>ID</td>"
         			+	"<td>judgeTaskID</td>" 
+        			+ 	"<td>contest</td>"
         			+ 	"<td>name</td>"
         			+ 	"<td></td>"
         			+ "</tr>");
@@ -58,7 +59,7 @@ public class Tasks extends HttpServlet {
 	        	// Get all tipps for this task
 	        	//PreparedStatement ps = conn.prepareStatement("select * from test.tipps where aufgabenid = ?");
 	        	//ps.setString(1, id);
-	        	PreparedStatement ps = conn.prepareStatement("select ID, name, judgeTaskID from test.Task");
+	        	PreparedStatement ps = conn.prepareStatement("select ID, name, judgeTaskID, contest from test.Task");
 	        	
 	        	ResultSet result = ps.executeQuery();
 	
@@ -66,6 +67,7 @@ public class Tasks extends HttpServlet {
 	        		out.println("<tr>"
 	            			+ 	"<td>" + result.getString(1) + "</td>"
 	            			+ 	"<td>" + result.getString(3) + "</td>"
+	            			+ 	"<td>" + result.getString(4) + "</td>"
 	            			+	"<td><a href=\"Task?ID=" + result.getString(1) + "\">" + result.getString(2) + "</a></td>" 
 	            			+	"<td><a href=\"EditTasks?ID=" + result.getString(1) + "\">edit</a></td>" 
 	            			+ "</tr>");

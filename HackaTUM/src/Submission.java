@@ -147,18 +147,20 @@ public class Submission extends HttpServlet {
             
             // get information about that task 
             
-            PreparedStatement ps = conn.prepareStatement("select ID, judgeTaskID from test.Task WHERE ID = ?");
+            PreparedStatement ps = conn.prepareStatement("select ID, judgeTaskID, contest from test.Task WHERE ID = ?");
         	ps.setString(1, aufgabe); 
         	
         	ResultSet result = ps.executeQuery();
         	String judgeTaskID = "";
+        	String contest = "";
         	while (result.next()){
         		judgeTaskID = result.getString(2);
+        		contest = result.getString(3);
         	}
             
         	String submissionnumber = "";
             try {
-    			submissionnumber = TUMJudgeConnection.submit(filename,judgeTaskID,"isabelle","helloworld").trim();
+    			submissionnumber = TUMJudgeConnection.submit(filename,judgeTaskID,"isabelle",contest).trim();
     			System.out.println("SUBMISSION successfully posted to TUMJudge");
     		} catch (Exception e) {
     			// TODO Auto-generated catch block

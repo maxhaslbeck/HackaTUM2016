@@ -58,6 +58,7 @@ public class EditTasks extends HttpServlet {
     			String descr = "";
     			String def = "";
     			String check = "";
+    			String contest = "";
     			
     			if(taskID==null) {
     				// new task
@@ -76,6 +77,7 @@ public class EditTasks extends HttpServlet {
 		        		descr = result.getString(4);
 		        		def = result.getString(6);
 		        		check = result.getString(5); 
+		        		contest = result.getString(7); 
 		        	}
     				out.println("<h1>Edit Task \""+ taskName +"\"</h1>");
     			}
@@ -85,6 +87,7 @@ public class EditTasks extends HttpServlet {
     			
         		out.println("Name:<br><input type=\"text\" name=\"name\" value=\""+ taskName +"\"><br>");
         		out.println("judgeTaskID/shortname:<br><input type=\"text\" name=\"judgeTaskID\" value=\""+ judgeTaskID +"\"><br>");
+        		out.println("contest:<br><input type=\"text\" name=\"contest\" value=\""+ contest +"\"><br>");
         		out.println("<input type=\"hidden\" name=\"ID\" value=\""+ taskID +"\"> ");
         		out.println("descr:<br><textarea name=\"descr\" rows=\"10\" cols=\"100\">"+ descr +"</textarea><br>");
         		out.println("def:<br><textarea name=\"def\" rows=\"10\" cols=\"100\">"+ def +"</textarea><br>");
@@ -156,9 +159,12 @@ public class EditTasks extends HttpServlet {
 
 		String def = request.getParameter("def");
 		System.out.println("def is: " +  def);
-		
+
 		String check = request.getParameter("check");
 		System.out.println("check is: " +  check);
+		
+		String contest = request.getParameter("contest");
+		System.out.println("check is: " +  contest);
 
 		
 
@@ -175,13 +181,14 @@ public class EditTasks extends HttpServlet {
 	        if(taskID.equals("none")) {
 	        	//create new
 	        	System.out.println("create a new task");			            
-	        	String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy) values (?, ?, ?, ?, ?)";
+	        	String sql = "INSERT INTO test.Task (name, judgeTaskID, description, defthy, checkthy, contest) values (?, ?, ?, ?, ?, ?)";
 	            PreparedStatement statement = conn.prepareStatement(sql);
 	            statement.setString(1, name);
 	            statement.setString(2, judgeTaskID);
 	            statement.setString(3, descr);
 	            statement.setString(4, def);
 	            statement.setString(5, check);
+	            statement.setString(5, contest);
 	            // sends the statement to the database server
 	            int row = statement.executeUpdate();
 	            if (row > 0) {
@@ -189,14 +196,15 @@ public class EditTasks extends HttpServlet {
 	            } 
 	        } else {
 	        	System.out.println("update Task");	            
-	        	String sql = "UPDATE test.Task SET name = ?, judgeTaskID = ?, description = ?, defthy = ?, checkthy = ? WHERE ID = ?";
+	        	String sql = "UPDATE test.Task SET name = ?, judgeTaskID = ?, description = ?, defthy = ?, checkthy = ? , contest = ? WHERE ID = ?";
 	            PreparedStatement statement = conn.prepareStatement(sql);
 	            statement.setString(1, name);
 	            statement.setString(2, judgeTaskID);
 	            statement.setString(3, descr);
 	            statement.setString(4, def);
 	            statement.setString(5, check);
-	            statement.setString(6, taskID);
+	            statement.setString(6, contest);
+	            statement.setString(7, taskID);
 	            // sends the statement to the database server
 	            int row = statement.executeUpdate();
 	            if (row > 0) {
