@@ -194,8 +194,8 @@ public class EditTasks extends HttpServlet {
 	            statement.setString(3, descr);
 	            statement.setString(4, def);
 	            statement.setString(5, check);
-	            statement.setString(5, subm);
-	            statement.setString(5, contest);
+	            statement.setString(6, subm);
+	            statement.setString(7, contest);
 	            // sends the statement to the database server
 	            int row = statement.executeUpdate();
 	            if (row > 0) {
