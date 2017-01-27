@@ -93,7 +93,7 @@ public class EditTasks extends HttpServlet {
         		out.println("<input type=\"hidden\" name=\"ID\" value=\""+ taskID +"\"> ");
         		out.println("descr:<br><textarea name=\"descr\" rows=\"10\" cols=\"100\">"+ descr +"</textarea><br>");
         		out.println("def:<br><textarea name=\"def\" rows=\"10\" cols=\"100\">"+ def +"</textarea><br>");
-        		out.println("check:<br><textarea name=\"subm\" rows=\"10\" cols=\"100\">"+ subm +"</textarea><br>");
+        		out.println("submission:<br><textarea name=\"subm\" rows=\"10\" cols=\"100\">"+ subm +"</textarea><br>");
         		out.println("check:<br><textarea name=\"check\" rows=\"10\" cols=\"100\">"+ check +"</textarea><br>");
     			out.println("<input type=\"submit\" value =\"submit\">"
     					+ "</form>");

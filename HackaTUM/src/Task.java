@@ -65,7 +65,7 @@ public class Task extends HttpServlet {
     				def = def.replaceAll("(\r\n|\n)", "<br />"); 
 	        		String check = result.getString(5);
 	        		check = check.replaceAll("(\r\n|\n)", "<br />"); 
-	        		String submissiontemplate = result.getString(6);
+	        		String submissiontemplate = result.getString(8);
 	        		submissiontemplate = submissiontemplate.replaceAll("(\r\n|\n)", "<br />"); 
 	        		
 	        		
