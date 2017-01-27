@@ -65,15 +65,20 @@ public class Task extends HttpServlet {
     				def = def.replaceAll("(\r\n|\n)", "<br />"); 
 	        		String check = result.getString(5);
 	        		check = check.replaceAll("(\r\n|\n)", "<br />"); 
+	        		String submissiontemplate = result.getString(6);
+	        		submissiontemplate = submissiontemplate.replaceAll("(\r\n|\n)", "<br />"); 
+	        		
 	        		
 	        		
 	        		out.println("<h1>" + result.getString(2)  + "</h1>");
 	        		out.println("<h2>Description</h2>");
 	        		out.println( descr + "<br>"); 
 	        		out.println("<h2>Definition.thy</h2>");
-	        		out.println("<table><tr><td>"+ def + "</td></tr></table><br>"); 
+	        		out.println("<table border=\"1\" width=\"525\" style=\"border: 1px solid #000000;\"><tr><td>"+ def + "</td></tr></table><br>"); 
+	        		out.println("<h2>Submission.thy (template)</h2>");
+	        		out.println("<table border=\"1\" width=\"525\" style=\"border: 1px solid #000000;\"><tr><td>"+ submissiontemplate + "</td></tr></table><br>"); 
 	        		out.println("<h2>Check.thy</h2>");
-	        		out.println("<table><tr><td>"+ check + "</td></tr></table><br>"); 
+	        		out.println("<table border=\"1\" width=\"525\" style=\"border: 1px solid #000000;\"><tr><td>"+ check + "</td></tr></table><br>"); 
 	        	}
 	        }
 
